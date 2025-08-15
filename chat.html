@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Persona AI Chat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white flex items-center justify-center min-h-screen">
+
+  <!-- Chat Container -->
+  <div class="bg-gray-900 w-2/3 rounded-lg p-4 border border-gray-800 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 shadow-xl rounded-2xl p-6 flex flex-col items-center justify-center max-w-md mx-auto text-center">
+
+    <!-- Tab Selector -->
+    <div class="flex space-x-2 mb-4 ">
+      
+      <button class="flex items-center px-3 py-3 rounded-full bg-gray-800 border border-gray-700">
+        <img src="./hitesh sir.jpg" alt="Hitesh" class="w-6 h-6 rounded-full mr-2">
+        Hitesh choudhary
+      </button>
+     
+      
+    </div>
+
+    <!-- Profile Section -->
+    <div class="text-center mb-6">
+      <img src="./hitesh sir.jpg" alt="Hitesh" class="w-20 h-20 rounded-full mx-auto mb-3">
+      <h2 class="text-lg font-bold">Hitesh Chaudhary</h2>
+      <p class="text-gray-400 text-sm">Expert in coding education and mentorship.</p>
+    </div>
+
+    <!-- Input Box -->
+<div class="flex items-center border border-gray-700 rounded-lg overflow-hidden">
+  <input 
+    id="question"
+    type="text" 
+    placeholder="Message Hitesh Choudhary..." 
+    class="bg-black text-white flex-1 px-4 py-2 focus:outline-none"
+  >
+  <button id="sendBtn" class="bg-gray-800 px-4 py-2 hover:bg-gray-700">
+    Send
+  </button>
+</div>
+
+<!-- Chat Output -->
+<div id="chatOutput" class="mt-4 text-white space-y-2"></div>
+
+
+  </div>
+
+  <div class="chat">
+
+  </div>
+
+</body>
+<script>
+  const input = document.getElementById('question');
+  const sendBtn = document.getElementById('sendBtn');
+  const chatOutput = document.getElementById('chatOutput');
+
+  async function sendMessage() {
+    const userMessage = input.value.trim();
+    if (!userMessage) return;
+
+    // Show user message
+    chatOutput.innerHTML += `<div class="text-blue-400">You: ${userMessage}</div>`;
+    input.value = '';
+
+    // Call your backend API
+    try {
+      const res = await fetch('/api/chat', { // Your backend endpoint
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage })
+      });
+
+      const data = await res.json();
+
+      // Show persona's reply
+      chatOutput.innerHTML += `<div class="text-green-400">Hitesh: ${data.reply}</div>`;
+      chatOutput.scrollTop = chatOutput.scrollHeight;
+
+    } catch (err) {
+      console.error(err);
+      chatOutput.innerHTML += `<div class="text-red-400">Error: Could not connect.</div>`;
+    }
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendMessage();
+  });
+</script>
+
+</html>
