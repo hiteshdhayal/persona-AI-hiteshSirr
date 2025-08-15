@@ -11,7 +11,6 @@ AI Provider: Google Gemini API (default: gemini-2.5-pro)
 HTTP Client: Axios
 🚀 Getting Started
 1️⃣ Clone the repository
-git clone https://github.com/YashJsh/Hitesh-AI
 2️⃣ Install Dependencies
 npm install
 3️⃣ Set up environment variables
